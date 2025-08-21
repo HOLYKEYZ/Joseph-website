@@ -1,0 +1,1594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fire Network — Ignite Your Network. Earn with Fire.</title>
+  <meta name="theme-color" content="#000000" />
+  <style>
+    /* =========================================================
+       FIRE NETWORK — BLACK & RED THEME (Single-file build)
+       - Clean, modern UI without external libs
+       - Responsive grid, fluid typography, accessible contrast
+       - All components handcrafted; no frameworks
+       ========================================================= */
+
+    :root {
+      --bg: #0a0a0a;         /* near-black */
+      --bg-soft: #111;       /* soft black */
+      --bg-elev: #141414;    /* elevated black */
+      --text: #e6e6e6;       /* light text */
+      --muted: #b4b4b4;      /* muted text */
+      --danger: #ff3b3b;     /* fire red */
+      --accent: #ff1f1f;     /* bright red */
+      --accent-2: #ff6b6b;   /* soft red */
+      --success: #3bff64;    /* mint green for success */
+      --warning: #ffd84d;    /* warm yellow */
+      --shadow: rgba(0,0,0,0.55);
+      --round: 16px;
+      --round-lg: 20px;
+      --round-xl: 28px;
+      --gap: 14px;
+      --gap-lg: 20px;
+      --gap-xl: 28px;
+      --card-pad: 18px;
+      --blur: saturate(140%) blur(8px);
+    }
+
+    /* Global Reset */
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      font-family: ui-sans-serif, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+      color: var(--text);
+      background: radial-gradient(1200px 400px at 100% -10%, rgba(255,31,31,0.08), transparent 45%),
+                  radial-gradient(1000px 600px at -10% 110%, rgba(255,31,31,0.08), transparent 45%),
+                  var(--bg);
+      line-height: 1.45;
+      letter-spacing: 0.2px;
+    }
+
+    a { color: var(--accent-2); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    button { font: inherit; }
+
+    .container {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      gap: 0;
+      min-height: 100dvh;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      position: sticky; top: 0;
+      background: linear-gradient(180deg, #0a0a0a 0%, #0d0d0d 100%);
+      border-right: 1px solid #1e1e1e;
+      padding: 22px 14px;
+      display: flex; flex-direction: column;
+      gap: var(--gap-lg);
+    }
+
+    .brand {
+      display: flex; align-items: center; gap: 12px;
+      padding: 8px 10px; border-radius: var(--round);
+      background: linear-gradient(180deg, rgba(255,31,31,0.08), rgba(255,31,31,0.02));
+      border: 1px solid rgba(255,31,31,0.18);
+      box-shadow: 0 10px 26px -12px rgba(255,31,31,0.2) inset, 0 1px 0 rgba(255,255,255,0.04);
+    }
+
+    .flame {
+      width: 28px; height: 28px; border-radius: 8px;
+      background: radial-gradient(circle at 40% 30%, #fff5 0%, #ffeb3b 8%, #ff6b6b 32%, transparent 60%),
+                  radial-gradient(circle at 60% 70%, #ffffff44 0%, #ff3131 18%, #7a0000 60%);
+      box-shadow: 0 0 14px 4px rgba(255,31,31,0.35), inset 0 -6px 14px #7a0000aa;
+      animation: pulse 1.6s ease-in-out infinite;
+    }
+    @keyframes pulse { 0%,100%{ transform: scale(1); } 50%{ transform: scale(1.06); } }
+
+    .brand h1 { margin: 0; font-size: 18px; letter-spacing: 0.6px; }
+    .brand small { color: var(--muted); display: block; margin-top: 2px; }
+
+    .nav { display: grid; gap: 6px; }
+    .nav button {
+      text-align: left; width: 100%; padding: 12px 14px;
+      border: 1px solid #222; background: #0e0e0e; color: var(--text);
+      border-radius: 12px; cursor: pointer;
+      transition: transform .15s ease, border-color .2s ease, background .2s ease;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .nav button:hover { background: #121212; border-color: #2a2a2a; transform: translateY(-2px); }
+    .nav button.active { background: linear-gradient(180deg, #161616, #101010); border-color: var(--accent); box-shadow: 0 0 0 1px rgba(255,31,31,0.35) inset; }
+
+    .sidebar .footer {
+      margin-top: auto; font-size: 12px; color: var(--muted);
+      opacity: 0.85;
+    }
+
+    /* Topbar */
+    .topbar {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 16px 20px; position: sticky; top: 0; z-index: 5;
+      background: rgba(10,10,10,0.75);
+      backdrop-filter: var(--blur);
+      border-bottom: 1px solid #1e1e1e;
+    }
+
+    .profile-inline { display: flex; gap: 12px; align-items: center; }
+    .avatar {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: linear-gradient(180deg, #2a2a2a, #121212);
+      border: 1px solid #2a2a2a; display: grid; place-items: center; font-weight: 700;
+    }
+
+    .btn, .btn-ghost {
+      border: 1px solid #2a2a2a; background: #121212; color: var(--text);
+      padding: 10px 14px; border-radius: 12px; cursor: pointer;
+      transition: transform .15s ease, box-shadow .2s ease, background .2s ease;
+    }
+    .btn:hover { transform: translateY(-1px); background: #161616; box-shadow: 0 10px 22px -12px rgba(255,31,31,0.45); }
+    .btn.primary { border-color: var(--accent); background: linear-gradient(180deg, #1a0000, #100000); box-shadow: inset 0 0 0 1px rgba(255,31,31,0.45), 0 10px 22px -12px rgba(255,31,31,0.45); }
+    .btn.primary:hover { background: linear-gradient(180deg, #220000, #110000); }
+    .btn.success { border-color: #1e3823; background: linear-gradient(180deg, #0e1a10, #0a130b); box-shadow: inset 0 0 0 1px rgba(59,255,100,0.35); }
+    .btn.danger { border-color: #3a0d0d; background: linear-gradient(180deg, #1a0b0b, #120707); box-shadow: inset 0 0 0 1px rgba(255,31,31,0.35); }
+    .btn-ghost { background: transparent; }
+
+    /* Content area */
+    .content { padding: 18px 18px 60px; }
+    .grid { display: grid; gap: var(--gap-lg); }
+    .grid.cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grid.cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+    @media (max-width: 1000px) {
+      .container { grid-template-columns: 1fr; }
+      .sidebar { position: relative; }
+      .topbar { position: sticky; }
+      .grid.cols-3 { grid-template-columns: 1fr; }
+      .grid.cols-2 { grid-template-columns: 1fr; }
+    }
+
+    /* Cards */
+    .card {
+      background: linear-gradient(180deg, #121212, #0e0e0e);
+      border: 1px solid #1e1e1e; border-radius: var(--round-lg);
+      box-shadow: 0 26px 50px -28px rgba(0,0,0,0.6), inset 0 0 0 1px rgba(255,255,255,0.02);
+      padding: var(--card-pad);
+    }
+    .card h3 { margin: 0 0 8px; font-size: 16px; letter-spacing: 0.4px; }
+    .muted { color: var(--muted); font-size: 13px; }
+
+    /* Fire progress bar */
+    .progress {
+      position: relative; height: 18px; border-radius: 999px;
+      background: #181818; border: 1px solid #262626; overflow: hidden;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.04);
+    }
+    .progress .bar {
+      position: absolute; inset: 0 auto 0 0; width: 0%;
+      background: linear-gradient(90deg, #7a0000, #ff1f1f, #ffd84d);
+      background-size: 200% 100%;
+      animation: burn 1.6s linear infinite;
+      box-shadow: 0 0 26px rgba(255,31,31,0.35), inset 0 -8px 16px #7a0000aa;
+    }
+    @keyframes burn { from { background-position: 0 0; } to { background-position: 200% 0; } }
+
+    .progress .embers {
+      position: absolute; inset: 0; pointer-events: none; mix-blend-mode: screen;
+      background: radial-gradient(circle at 10% 80%, rgba(255,31,31,0.25) 0 2px, transparent 3px),
+                  radial-gradient(circle at 30% 20%, rgba(255,31,31,0.25) 0 2px, transparent 3px),
+                  radial-gradient(circle at 60% 60%, rgba(255,31,31,0.25) 0 2px, transparent 3px),
+                  radial-gradient(circle at 80% 40%, rgba(255,31,31,0.25) 0 2px, transparent 3px);
+      filter: blur(0.5px);
+      animation: embers 3s linear infinite;
+    }
+    @keyframes embers {
+      0% { background-position: 0 0, 10px 10px, 20px 20px, 40px 40px; opacity: 0.35; }
+      50% { opacity: 0.6; }
+      100% { background-position: 100px -60px, 60px -40px, 140px -80px, 180px -120px; opacity: 0.35; }
+    }
+
+    /* Tables */
+    table { width: 100%; border-collapse: collapse; }
+    th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid #1e1e1e; }
+    th { color: var(--muted); font-weight: 600; }
+    tr:hover td { background: #111; }
+
+    /* Forms */
+    .field { display: grid; gap: 6px; margin-bottom: 12px; }
+    .field label { font-size: 13px; color: var(--muted); }
+    .input, select, textarea {
+      background: #0f0f0f; border: 1px solid #222; color: var(--text);
+      padding: 10px 12px; border-radius: 10px; outline: none;
+      transition: border-color .2s ease, box-shadow .2s ease;
+    }
+    .input:focus, select:focus, textarea:focus {
+      border-color: var(--accent); box-shadow: 0 0 0 2px rgba(255,31,31,0.2);
+    }
+
+    /* Badges */
+    .badge { display: inline-flex; align-items: center; gap: 6px; padding: 6px 10px; border-radius: 999px; font-size: 12px; border: 1px solid #262626; background: #0f0f0f; }
+    .badge.red { border-color: rgba(255,31,31,0.3); background: rgba(255,31,31,0.08); color: #ff9c9c; }
+    .badge.green { border-color: rgba(59,255,100,0.3); background: rgba(59,255,100,0.08); color: #b1ffbf; }
+
+    /* Modal / Overlay */
+    .overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.64);
+      display: none; align-items: center; justify-content: center; z-index: 50;
+      padding: 20px;
+    }
+    .overlay.show { display: flex; }
+    .modal { width: min(680px, 96vw); background: #0e0e0e; border: 1px solid #1e1e1e; border-radius: var(--round-lg); padding: 18px; }
+
+    /* Splash / Entry animation */
+    .splash {
+      position: fixed; inset: 0; background: radial-gradient(600px 300px at 80% 10%, rgba(255,31,31,0.2), transparent 45%), var(--bg);
+      display: grid; place-items: center; z-index: 100;
+    }
+    .splash .logo { display: grid; place-items: center; gap: 12px; }
+    .splash .logo .bigflame {
+      width: 120px; height: 120px; border-radius: 32px;
+      background: radial-gradient(circle at 45% 20%, #fff8 0%, #ffeb3b 8%, #ff6b6b 32%, transparent 60%),
+                  radial-gradient(circle at 55% 80%, #ffffff44 0%, #ff3131 20%, #7a0000 65%);
+      box-shadow: 0 0 40px 8px rgba(255,31,31,0.45), inset 0 -12px 30px #7a0000aa;
+      animation: float 2.2s ease-in-out infinite;
+    }
+    .splash h2 { margin: 0; font-weight: 800; letter-spacing: 1px; }
+    @keyframes float { 0%,100%{ transform: translateY(0); } 50%{ transform: translateY(-8px) scale(1.02); } }
+
+    /* Sticky 18+ banner */
+    .age-banner {
+      position: fixed; bottom: 10px; left: 50%; transform: translateX(-50%);
+      background: linear-gradient(180deg, #1a0000, #100000);
+      border: 1px solid rgba(255,31,31,0.25);
+      padding: 10px 14px; border-radius: 999px; font-size: 13px; color: #ffb4b4;
+      box-shadow: 0 8px 28px -12px rgba(255,31,31,0.5);
+      z-index: 20;
+    }
+
+    /* Hide utilities */
+    .hidden { display: none !important; }
+    .section { display: none; }
+    .section.active { display: block; }
+
+    /* Divider */
+    .divider { height: 1px; background: #1e1e1e; margin: 10px 0 14px; }
+
+    /* Tag pills */
+    .pills { display: flex; gap: 8px; flex-wrap: wrap; }
+    .pill { padding: 6px 10px; border-radius: 999px; border: 1px solid #262626; background: #0f0f0f; font-size: 12px; color: var(--muted); }
+
+    /* Copy link */
+    .copy { cursor: pointer; font-size: 12px; color: #ff9c9c; border: 1px dashed rgba(255,31,31,0.35); padding: 6px 10px; border-radius: 999px; }
+
+    /* Toast */
+    .toast { position: fixed; top: 18px; right: 18px; background: #0e0e0e; border: 1px solid #2a2a2a; padding: 10px 14px; border-radius: 12px; box-shadow: 0 10px 30px -16px rgba(0,0,0,0.6); display: none; z-index: 60; }
+    .toast.show { display: block; }
+
+    /* Toggle switch */
+    .switch { position: relative; width: 42px; height: 24px; background: #202020; border-radius: 999px; border: 1px solid #2a2a2a; }
+    .switch .dot { position: absolute; top: 2px; left: 2px; width: 20px; height: 20px; background: #fff; border-radius: 50%; transition: left .2s ease; }
+    .switch.active { background: #300; border-color: #511; }
+    .switch.active .dot { left: 20px; background: #ff6b6b; }
+
+    /* Link-like buttons */
+    .link { border: none; background: none; color: #ff9c9c; cursor: pointer; padding: 0; }
+
+  </style>
+</head>
+<body>
+  <!-- Splash / Entry Animation (5 seconds) -->
+  <div id="splash" class="splash" role="status" aria-live="polite" aria-label="Loading Fire Network">
+    <div class="logo">
+      <div class="bigflame" aria-hidden="true"></div>
+      <h2>FIRE NETWORK</h2>
+      <div class="muted">Ignite Your Network. Earn with Fire.</div>
+    </div>
+  </div>
+
+  <!-- Age restriction banner -->
+  <div class="age-banner">This platform is intended for users 18+</div>
+
+  <!-- Auth Overlay (Email + Code, no password) -->
+  <div class="overlay" id="authOverlay">
+    <div class="modal">
+      <h2 style="margin:0 0 6px;">Sign in to Fire Network</h2>
+      <div class="muted" style="margin-bottom:14px;">Login with email & confirmation code. No password.</div>
+
+      <div id="authStepEmail">
+        <div class="field">
+          <label for="authEmail">Email</label>
+          <input id="authEmail" class="input" placeholder="you@example.com" type="email" autocomplete="email" />
+        </div>
+        <div class="pills">
+          <span class="pill">Web-only</span>
+          <span class="pill">No password</span>
+          <span class="pill">Fast & secure</span>
+        </div>
+        <div style="display:flex; gap:10px; margin-top:12px;">
+          <button id="sendCodeBtn" class="btn primary">Send Code</button>
+          <button id="googleBtn" class="btn btn-ghost" title="Coming soon" disabled>Sign in with Google</button>
+          <button id="telegramBtn" class="btn btn-ghost" title="Coming soon" disabled>Login with Telegram</button>
+        </div>
+        <div class="muted" style="margin-top:10px; font-size:12px;">For production, connect Firebase Email Link Auth or OTP provider. This demo simulates sending a code.</div>
+      </div>
+
+      <div id="authStepCode" class="hidden">
+        <div class="field">
+          <label>Enter the confirmation code we sent</label>
+          <input id="authCode" class="input" placeholder="6-digit code" maxlength="6" />
+        </div>
+        <div style="display:flex; align-items:center; gap:10px;">
+          <button id="verifyCodeBtn" class="btn success">Verify & Continue</button>
+          <button id="backToEmailBtn" class="btn btn-ghost">Back</button>
+          <div class="muted" id="codeHelper" style="font-size:12px;"></div>
+        </div>
+      </div>
+
+      <div id="authStepUsername" class="hidden">
+        <div class="field">
+          <label>Create your username (letters only)</label>
+          <input id="authUsername" class="input" placeholder="e.g., firelord" maxlength="22" />
+        </div>
+        <div style="display:flex; gap:10px;">
+          <button id="setUsernameBtn" class="btn primary">Save Username</button>
+          <button id="usernameSkipBtn" class="btn btn-ghost">Skip for now</button>
+        </div>
+        <div class="muted" style="margin-top:10px; font-size:12px;">Only letters (a–z, A–Z). We’ll ask again later if you skip.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container" id="app" aria-live="polite" aria-busy="false" style="display:none;">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="flame"></div>
+        <div>
+          <h1>Fire Network</h1>
+          <small>Token: <strong>FIRE</strong></small>
+        </div>
+      </div>
+      <nav class="nav" id="nav">
+        <button data-section="dashboard" class="active">🔥 Dashboard</button>
+        <button data-section="boost">🚀 Boost Mining</button>
+        <button data-section="rewards">🎁 Rewards / Tasks</button>
+        <button data-section="settings">⚙️ Settings</button>
+        <button data-section="faq">❓ FAQ</button>
+        <button data-section="tokenomics">📊 Tokenomics & Whitepaper</button>
+        <button data-section="admin" id="adminNav" class="hidden">🛠 Admin</button>
+      </nav>
+      <div class="footer">
+        <div>v1.0 — Updated build</div>
+        <div>© Fire Network</div>
+      </div>
+    </aside>
+
+    <!-- Main -->
+    <main>
+      <!-- Topbar -->
+      <header class="topbar">
+        <div style="display:flex; align-items:center; gap:14px;">
+          <div class="badge red" id="balanceBadge">Balance: 0 FIRE</div>
+          <div class="badge" id="miningStatusBadge">Mining: Idle</div>
+        </div>
+        <div class="profile-inline">
+          <div class="avatar" id="avatar">FN</div>
+          <div>
+            <div id="topUsername">—</div>
+            <small class="muted" id="topEmail">you@example.com</small>
+          </div>
+          <button id="logoutBtn" class="btn danger">Logout</button>
+        </div>
+      </header>
+
+      <div class="content">
+        <!-- DASHBOARD / MINING -->
+        <section id="section-dashboard" class="section active">
+          <div class="grid cols-2">
+            <div class="card" style="position:relative; overflow:hidden;">
+              <h3>🔥 Mining Engine</h3>
+              <div class="muted" id="miningHint">Earn <strong id="rateText">36</strong> FIRE per 24 hours. Watch a short ad before mining starts.</div>
+
+              <div style="height:16px"></div>
+
+              <div class="progress" aria-label="Mining progress">
+                <div class="bar" id="progressBar"></div>
+                <div class="embers"></div>
+              </div>
+
+              <div style="display:flex; align-items:center; gap:10px; margin-top:12px;">
+                <button class="btn primary" id="watchAdBtn">Watch Ad to Start</button>
+                <button class="btn success hidden" id="startMiningBtn">Start Mining</button>
+                <button class="btn btn-ghost" id="stopMiningBtn" title="Stop current session">Stop</button>
+                <div class="muted" id="miningTimer">00:00:00 / 24:00:00</div>
+              </div>
+
+              <div class="divider"></div>
+              <div class="pills">
+                <span class="pill" id="activeSessionPill">No active session</span>
+                <span class="pill">Requires ad view</span>
+                <span class="pill">One balance for all earnings</span>
+              </div>
+            </div>
+
+            <div class="card">
+              <h3>📈 Overview</h3>
+              <div class="grid cols-2">
+                <div>
+                  <div class="muted">Total Mined</div>
+                  <div style="font-size:22px; font-weight:800;" id="totalMined">0 FIRE</div>
+                </div>
+                <div>
+                  <div class="muted">Referral Bonus Earned</div>
+                  <div style="font-size:22px; font-weight:800;" id="refBonusTotal">0 FIRE</div>
+                </div>
+              </div>
+              <div style="height:12px"></div>
+              <div class="muted" id="lastSessionInfo">No completed sessions yet.</div>
+              <div style="height:10px"></div>
+              <div class="badge green hidden" id="firstMineBadge">First mine complete — your referrer has been credited!</div>
+            </div>
+          </div>
+
+          <div class="grid cols-3" style="margin-top:14px;">
+            <div class="card">
+              <h3>🔗 Referral</h3>
+              <div class="muted">Share your link to boost mining (one-time 10% of friend’s first mine).</div>
+              <div style="height:10px"></div>
+              <div class="field">
+                <label>Your referral link</label>
+                <div style="display:flex; gap:8px;">
+                  <input id="refLink" class="input" readonly />
+                  <button class="btn" id="copyRefBtn">Copy</button>
+                </div>
+              </div>
+              <div class="grid cols-2">
+                <div><div class="muted">Referred Users</div><div id="refCount" style="font-weight:700;">0</div></div>
+                <div><div class="muted">Active Miners</div><div id="refActive" style="font-weight:700;">0</div></div>
+              </div>
+            </div>
+
+            <div class="card">
+              <h3>🎯 Quick Actions</h3>
+              <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                <button class="btn" id="quickViewAd">View Ad (Reward)</button>
+                <button class="btn" id="quickJoinTG">Join Telegram</button>
+                <button class="btn" id="quickFollowX">Follow on X</button>
+                <button class="btn" id="quickSubscribeYT">Subscribe YT</button>
+              </div>
+              <div class="muted" style="margin-top:8px; font-size:12px;">Tasks also available on the Rewards page with claim flow.</div>
+            </div>
+
+            <div class="card">
+              <h3>🔒 KYC</h3>
+              <div class="muted">Coming Soon</div>
+              <div class="divider"></div>
+              <div style="display:grid; gap:10px;">
+                <div class="badge">Professional placeholder design</div>
+                <div class="badge">Identity verification when needed</div>
+                <div class="badge">Edit profile carefully — must match ID</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- BOOST -->
+        <section id="section-boost" class="section">
+          <div class="grid cols-2">
+            <div class="card">
+              <h3>🚀 Boost Mining</h3>
+              <div class="muted">Only referrals boost mining. No other boosts.</div>
+              <div class="divider"></div>
+              <div class="field">
+                <label>Your Referral Link</label>
+                <div style="display:flex; gap:8px;">
+                  <input id="refLink2" class="input" readonly />
+                  <button class="btn" id="copyRefBtn2">Copy</button>
+                </div>
+              </div>
+              <div class="grid cols-2">
+                <div><div class="muted">Referred Users</div><div id="refCount2" style="font-weight:700;">0</div></div>
+                <div><div class="muted">Active Miners</div><div id="refActive2" style="font-weight:700;">0</div></div>
+              </div>
+              <div style="height:10px"></div>
+              <div class="muted">Total referral mining bonus: <b id="refTotalBoost">0</b> FIRE</div>
+            </div>
+
+            <div class="card">
+              <h3>👥 Mining Team</h3>
+              <div class="muted">See the users you referred and their mining status.</div>
+              <div class="divider"></div>
+              <div style="max-height:280px; overflow:auto;" id="teamList"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- REWARDS / TASKS -->
+        <section id="section-rewards" class="section">
+          <div class="grid cols-2">
+            <div class="card">
+              <h3>🎁 Rewards & Tasks</h3>
+              <div class="muted">Complete tasks to earn Fire. Admin controls visibility and rewards.</div>
+              <div class="divider"></div>
+              <div id="taskList" class="grid" style="gap:12px;"></div>
+            </div>
+            <div class="card">
+              <h3>🪙 Reward History</h3>
+              <div class="muted">Track your claimed rewards.</div>
+              <div class="divider"></div>
+              <table>
+                <thead><tr><th>When</th><th>Type</th><th>Details</th><th>Fire</th></tr></thead>
+                <tbody id="rewardHistory"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- SETTINGS -->
+        <section id="section-settings" class="section">
+          <div class="grid cols-2">
+            <div class="card">
+              <h3>👤 Profile</h3>
+              <div class="muted">Edit with care. Name & country editable only twice.</div>
+              <div class="divider"></div>
+
+              <div class="field"><label>First Name</label><input class="input" id="firstName" /></div>
+              <div class="field"><label>Middle Name</label><input class="input" id="middleName" /></div>
+              <div class="field"><label>Last Name</label><input class="input" id="lastName" /></div>
+              <div class="field"><label>Date of Birth</label><input class="input" id="dob" type="date" /></div>
+              <div class="field"><label>Country of Residence</label><input class="input" id="countryResidence" placeholder="e.g., Nigeria" /></div>
+              <div class="field"><label>Country of Citizenship</label><input class="input" id="countryCitizen" placeholder="e.g., Nigeria" /></div>
+              <div class="field"><label>Email</label><input class="input" id="emailSetting" type="email" /></div>
+              <div class="field"><label>Username (letters only)</label><input class="input" id="usernameSetting" /></div>
+              <div class="muted" id="editWarning">You can still edit your name/country <b id="editsLeft">2</b> time(s). Ensure they match your ID.</div>
+
+              <div style="display:flex; gap:10px; margin-top:10px;">
+                <button class="btn success" id="saveProfileBtn">Save Profile</button>
+                <button class="btn btn-ghost" id="resendCodeBtn">Confirm Email</button>
+              </div>
+            </div>
+
+            <div class="card">
+              <h3>📣 Community & Support</h3>
+              <div class="muted">Stay connected with Fire Network.</div>
+              <div class="divider"></div>
+              <div class="grid">
+                <div class="field"><label>Community Chat</label><button class="btn" id="openCommunityBtn">Open Chat</button></div>
+                <div class="field"><label>Contact Us (Telegram Bot)</label><button class="btn" id="openSupportBtn">Message Support</button></div>
+                <div class="field"><label>Whitepaper</label><button class="btn" id="downloadWPBtn">Download PDF</button></div>
+                <div class="field"><label>Terms & Conditions</label><button class="btn" id="viewTCBtn">View Terms</button></div>
+              </div>
+              <div class="divider"></div>
+              <div class="muted">Links are controlled from the Admin panel.</div>
+            </div>
+          </div>
+
+          <div class="card" style="margin-top:14px;">
+            <h3>🧾 Terms & Conditions</h3>
+            <div class="muted">Cheating or trying to game the system (multiple accounts, bots) leads to a ban. Use must be fair and respectful. Platform is for personal use only.</div>
+            <div class="divider"></div>
+            <div id="termsContent" style="white-space:pre-wrap;">Cheating or trying to game the system (multiple accounts, bots) leads to ban. Use must be fair and respectful. Platform is for personal use only. Age 18+.</div>
+          </div>
+        </section>
+
+        <!-- FAQ -->
+        <section id="section-faq" class="section">
+          <div class="grid cols-2">
+            <div class="card">
+              <h3>❓ Frequently Asked Questions</h3>
+              <div id="faqList" style="display:grid; gap:10px;"></div>
+            </div>
+            <div class="card">
+              <h3>📬 Have more questions?</h3>
+              <p class="muted">Reach us on our community chat or via the support bot. Links in Settings.</p>
+              <div class="divider"></div>
+              <div class="badge">Admin curated FAQs</div>
+              <div class="badge">Updated as the project evolves</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- TOKENOMICS / WHITEPAPER -->
+        <section id="section-tokenomics" class="section">
+          <div class="grid cols-2">
+            <div class="card">
+              <h3>📊 Tokenomics — FIRE</h3>
+              <div class="muted">Project: <b>Fire Network</b> — Slogan: <i>Ignite Your Network. Earn with Fire.</i></div>
+              <div class="divider"></div>
+              <ul>
+                <li>Max Supply: <b>10,000,000,000</b> FIRE</li>
+                <li>Airdrop: <b>3,000,000,000</b></li>
+                <li>Investment/Presale: <b>3,000,000,000</b></li>
+                <li>Treasury: <b>2,000,000,000</b></li>
+                <li>Contributors: <b>1,000,000,000</b></li>
+                <li>Team: <b>1,000,000,000</b></li>
+              </ul>
+              <div class="divider"></div>
+              <div class="muted">
+                Utility: Used across the Fire Network app. Earned via mining, referrals, tasks, and ad engagement. Future: redeemable for features, staking, governance.
+              </div>
+              <div class="divider"></div>
+              <div class="muted">Burns: Inactive users, ad revenue share, milestone-based ecosystem use.</div>
+            </div>
+            <div class="card">
+              <h3>📄 Whitepaper</h3>
+              <div class="muted">Vision, Utility, Tokenomics, Roadmap, Core Team (anonymous but professional), phased roadmap with no listing date.</div>
+              <div class="divider"></div>
+              <button class="btn" id="downloadWPBtn2">Download Whitepaper</button>
+              <div class="muted" style="margin-top:8px; font-size:12px;">Controlled via Admin → Links.</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ADMIN -->
+        <section id="section-admin" class="section">
+          <div class="grid cols-2">
+            <div class="card">
+              <h3>🛠 Admin Dashboard</h3>
+              <div class="muted">Admin-only access via approved emails.</div>
+              <div class="divider"></div>
+
+              <div class="grid cols-2">
+                <div>
+                  <div class="field"><label>Daily Mining Rate (FIRE / 24h)</label><input id="confRate" class="input" type="number" min="1" step="1" /></div>
+                  <div class="field"><label>Referral Bonus (%)</label><input id="confRefPct" class="input" type="number" min="0" max="100" step="1" /></div>
+                  <div class="field"><label>Default Task Reward (FIRE)</label><input id="confTaskReward" class="input" type="number" min="0" step="1" /></div>
+                  <button class="btn success" id="saveConfigBtn">Save Config</button>
+                </div>
+                <div>
+                  <div class="field"><label>Whitepaper Link (PDF)</label><input id="confWP" class="input" placeholder="https://...pdf" /></div>
+                  <div class="field"><label>Community Chat Link</label><input id="confChat" class="input" placeholder="https://t.me/..." /></div>
+                  <div class="field"><label>Support Bot Link</label><input id="confSupport" class="input" placeholder="https://t.me/your_bot" /></div>
+                  <div class="field"><label>Terms & Conditions</label><textarea id="confTerms" rows="5" class="input"></textarea></div>
+                </div>
+              </div>
+
+              <div class="divider"></div>
+              <div class="muted">Approved Admin Emails (comma-separated)</div>
+              <div class="field"><input id="confAdmins" class="input" /></div>
+              <button class="btn" id="saveAdminsBtn">Save Admin Emails</button>
+            </div>
+
+            <div class="card">
+              <h3>📊 Stats</h3>
+              <div class="grid cols-2">
+                <div>
+                  <div class="muted">Registered Users</div>
+                  <div style="font-weight:800; font-size:22px;" id="statUsers">0</div>
+                </div>
+                <div>
+                  <div class="muted">Total Fire Mined</div>
+                  <div style="font-weight:800; font-size:22px;" id="statTotalMined">0</div>
+                </div>
+              </div>
+              <div class="divider"></div>
+              <div style="max-height:280px; overflow:auto;">
+                <table>
+                  <thead><tr><th>User</th><th>Email</th><th>Balance</th><th>Referred By</th><th>First Mine Credited</th></tr></thead>
+                  <tbody id="adminUserRows"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid cols-2" style="margin-top:14px;">
+            <div class="card">
+              <h3>🧩 Manage Tasks</h3>
+              <div class="grid cols-2">
+                <div>
+                  <div class="field"><label>Task Title</label><input id="taskTitle" class="input" placeholder="Follow us on X" /></div>
+                  <div class="field"><label>Task Type</label>
+                    <select id="taskType" class="input">
+                      <option value="follow">Follow Social Media</option>
+                      <option value="join">Join Telegram Group</option>
+                      <option value="watch">Watch Ads / View Ads</option>
+                      <option value="subscribe">Subscribe to Channels</option>
+                    </select>
+                  </div>
+                </div>
+                <div>
+                  <div class="field"><label>Reward (FIRE)</label><input id="taskReward" class="input" type="number" min="0" step="1" /></div>
+                  <div class="field"><label>Target URL</label><input id="taskUrl" class="input" placeholder="https://..." /></div>
+                  <div class="field"><label>Visible?</label>
+                    <div class="switch" id="taskVisible"><div class="dot"></div></div>
+                  </div>
+                </div>
+              </div>
+              <div style="display:flex; gap:10px;">
+                <button class="btn success" id="addTaskBtn">Add / Update Task</button>
+                <button class="btn btn-ghost" id="resetTasksBtn">Reset to Defaults</button>
+              </div>
+              <div class="divider"></div>
+              <div id="adminTaskList" style="display:grid; gap:10px;"></div>
+            </div>
+
+            <div class="card">
+              <h3>❓ Manage FAQ</h3>
+              <div class="field"><label>Question</label><input id="faqQ" class="input" /></div>
+              <div class="field"><label>Answer</label><textarea id="faqA" rows="4" class="input"></textarea></div>
+              <div style="display:flex; gap:10px;">
+                <button class="btn success" id="addFaqBtn">Add / Update FAQ</button>
+                <button class="btn btn-ghost" id="resetFaqBtn">Reset FAQ</button>
+              </div>
+              <div class="divider"></div>
+              <div id="adminFaqList" style="display:grid; gap:8px;"></div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <!-- Toast -->
+  <div id="toast" class="toast"></div>
+
+  <!-- (Optional) Ad tags placeholders; integrate providers when ready
+  <script src="https://....propellerads.js" defer></script>
+  <script src="https://....adsterra.js" defer></script>
+  <script src="https://....coinzilla.js" defer></script>
+  -->
+
+  <script>
+    /* =========================================================
+       FIRE NETWORK — APP STATE & STORAGE
+       - Lightweight client-side state (localStorage)
+       - Replace with Firebase/Firestore in production
+       ========================================================= */
+
+    const LS_KEYS = {
+      config: 'fire_conf',      // platform config
+      users: 'fire_users',      // user directory by email
+      sessions: 'fire_sessions',// mining sessions (per user)
+      auth: 'fire_auth',        // current auth session
+      tasks: 'fire_tasks',      // admin-defined tasks
+      faqs: 'fire_faqs'         // admin-defined faq
+    };
+
+    // Default configuration — admin can override
+    const DEFAULT_CONF = {
+      dailyRate: 36,              // FIRE / 24h
+      refPercent: 10,             // 10% one-time on first mine
+      taskReward: 4,              // default per-task
+      whitepaper: 'https://example.com/whitepaper.pdf',
+      chat: 'https://t.me/your_community',
+      support: 'https://t.me/firerealsupportbot',
+      terms: 'Cheating or trying to game the system (multiple accounts, bots) leads to ban. Use must be fair and respectful. Platform is for personal use only. Age 18+.',
+      adminEmails: [
+        'fchukwudi772@gmail.com',
+        'francischukwudi772@gmail.com',
+        'ayandajoseph390@gmail.com'
+      ]
+    };
+
+    // Starter tasks — admin can change
+    const DEFAULT_TASKS = [
+      { id: uid(), title: 'Follow us on X', type: 'follow', url: 'https://x.com/', reward: 5, visible: true },
+      { id: uid(), title: 'Join our Telegram', type: 'join', url: 'https://t.me/', reward: 6, visible: true },
+      { id: uid(), title: 'View Ads', type: 'watch', url: '#', reward: 3, visible: true },
+      { id: uid(), title: 'Subscribe on YouTube', type: 'subscribe', url: 'https://youtube.com/', reward: 5, visible: true }
+    ];
+
+    const DEFAULT_FAQ = [
+      { id: uid(), q: 'How does mining work?', a: 'Watch a short ad, then your 24-hour mining session begins. When complete, you receive your daily FIRE reward into your balance.' },
+      { id: uid(), q: 'How do referrals boost?', a: 'You get a one-time bonus equal to a percentage of your friend\'s first completed mining reward. No ongoing bonus.' },
+      { id: uid(), q: 'Where can I contact support?', a: 'Open Settings → Message Support to reach our Telegram bot.' }
+    ];
+
+    // In-memory app state
+    let state = {
+      conf: null,
+      users: {},
+      auth: null,
+      tasks: [],
+      faqs: [],
+      currentSection: 'dashboard',
+      adGate: { ready: false, deadline: 0 }
+    };
+
+    /* =========================================================
+       UTILITIES
+       ========================================================= */
+    function uid() {
+      return 'id-' + Math.random().toString(36).slice(2) + Date.now().toString(36);
+    }
+    function now() { return Date.now(); }
+    function clamp(n, a, b) { return Math.max(a, Math.min(b, n)); }
+    function fmt(n) { return Number(n).toLocaleString(); }
+    function toHMS(ms) {
+      ms = Math.max(0, ms);
+      const s = Math.floor(ms / 1000);
+      const h = Math.floor(s / 3600);
+      const m = Math.floor((s % 3600) / 60);
+      const ss = s % 60;
+      const pad = (x) => x.toString().padStart(2, '0');
+      return `${pad(h)}:${pad(m)}:${pad(ss)}`;
+    }
+    function toast(msg, ms=2500) {
+      const el = document.getElementById('toast');
+      el.textContent = msg;
+      el.classList.add('show');
+      setTimeout(()=> el.classList.remove('show'), ms);
+    }
+
+    function getConf() {
+      const raw = localStorage.getItem(LS_KEYS.config);
+      if (!raw) return DEFAULT_CONF;
+      try { return Object.assign({}, DEFAULT_CONF, JSON.parse(raw)); } catch { return DEFAULT_CONF; }
+    }
+    function setConf(conf) {
+      state.conf = conf;
+      localStorage.setItem(LS_KEYS.config, JSON.stringify(conf));
+    }
+
+    function getUsers() {
+      const raw = localStorage.getItem(LS_KEYS.users);
+      return raw ? JSON.parse(raw) : {};
+    }
+    function setUsers(users) {
+      state.users = users;
+      localStorage.setItem(LS_KEYS.users, JSON.stringify(users));
+    }
+
+    function getTasks() {
+      const raw = localStorage.getItem(LS_KEYS.tasks);
+      return raw ? JSON.parse(raw) : DEFAULT_TASKS;
+    }
+    function setTasks(tasks) {
+      state.tasks = tasks;
+      localStorage.setItem(LS_KEYS.tasks, JSON.stringify(tasks));
+    }
+
+    function getFaqs() {
+      const raw = localStorage.getItem(LS_KEYS.faqs);
+      return raw ? JSON.parse(raw) : DEFAULT_FAQ;
+    }
+    function setFaqs(faqs) {
+      state.faqs = faqs;
+      localStorage.setItem(LS_KEYS.faqs, JSON.stringify(faqs));
+    }
+
+    function getAuth() {
+      const raw = localStorage.getItem(LS_KEYS.auth);
+      return raw ? JSON.parse(raw) : null;
+    }
+    function setAuth(auth) {
+      state.auth = auth;
+      if (auth) localStorage.setItem(LS_KEYS.auth, JSON.stringify(auth));
+      else localStorage.removeItem(LS_KEYS.auth);
+    }
+
+    function ensureUser(email) {
+      const users = getUsers();
+      if (!users[email]) {
+        users[email] = {
+          email,
+          uid: uid(),
+          username: '',
+          balance: 0,
+          totalMined: 0,
+          refBonus: 0,
+          referrals: [], // emails of users they referred
+          referredBy: null, // email of referrer
+          firstMineCredited: false,
+          mining: { active: false, startAt: 0, duration: 24*3600*1000 },
+          lastSession: null,
+          rewardHistory: [],
+          profile: {
+            firstName: '', middleName: '', lastName: '',
+            dob: '', countryResidence: '', countryCitizen: '',
+            editsLeft: 2
+          }
+        };
+      }
+      setUsers(users);
+      return users[email];
+    }
+
+    function saveUser(user) {
+      const users = getUsers();
+      users[user.email] = user;
+      setUsers(users);
+    }
+
+    function getUserByUsername(username) {
+      const users = getUsers();
+      return Object.values(users).find(u => (u.username || '').toLowerCase() === (username||'').toLowerCase());
+    }
+
+    function allUsers() { return Object.values(getUsers()); }
+
+    function totalFireMined() {
+      return allUsers().reduce((acc,u)=> acc + (u.totalMined||0) + (u.refBonus||0), 0);
+    }
+
+    /* =========================================================
+       AUTH — EMAIL + CODE (SIMULATED)
+       ========================================================= */
+    let _pendingCode = null;
+
+    function openAuth() {
+      document.getElementById('authOverlay').classList.add('show');
+      document.getElementById('authStepEmail').classList.remove('hidden');
+      document.getElementById('authStepCode').classList.add('hidden');
+      document.getElementById('authStepUsername').classList.add('hidden');
+    }
+    function closeAuth() { document.getElementById('authOverlay').classList.remove('show'); }
+
+    function sendCode(email) {
+      // Generate a 6-digit code (simulate sending)
+      const code = String(Math.floor(100000 + Math.random() * 900000));
+      _pendingCode = { email, code, exp: now() + 5*60*1000 };
+      document.getElementById('codeHelper').textContent = `Demo code: ${code} (expires in 5 min)`;
+    }
+
+    function verifyCode(input) {
+      if (!_pendingCode) return false;
+      if (now() > _pendingCode.exp) { toast('Code expired.'); return false; }
+      if (String(input).trim() !== _pendingCode.code) return false;
+      const email = _pendingCode.email;
+      const user = ensureUser(email);
+      setAuth({ email: user.email });
+      _pendingCode = null;
+      return true;
+    }
+
+    function ensureUsernameFlow(user) {
+      if (!user.username || !/^[a-zA-Z]+$/.test(user.username)) {
+        document.getElementById('authOverlay').classList.add('show');
+        document.getElementById('authStepEmail').classList.add('hidden');
+        document.getElementById('authStepCode').classList.add('hidden');
+        document.getElementById('authStepUsername').classList.remove('hidden');
+      }
+    }
+
+    /* =========================================================
+       MINING ENGINE — 24H sessions gated by ad view
+       ========================================================= */
+    const TICK_MS = 1000; // 1 second tick
+    let tickHandle = null;
+
+    function startTick() {
+      if (tickHandle) return;
+      tickHandle = setInterval(onTick, TICK_MS);
+    }
+    function stopTick() { clearInterval(tickHandle); tickHandle = null; }
+
+    function onTick() {
+      const auth = getAuth(); if (!auth) return;
+      const user = ensureUser(auth.email);
+      const m = user.mining;
+      const dur = state.conf.dailyRateDuration || 24*3600*1000; // keep default 24h
+      if (m.active) {
+        const elapsed = now() - m.startAt;
+        const pct = clamp(elapsed / dur, 0, 1);
+        document.getElementById('progressBar').style.width = (pct*100).toFixed(2) + '%';
+        document.getElementById('miningTimer').textContent = `${toHMS(elapsed)} / ${toHMS(dur)}`;
+        document.getElementById('activeSessionPill').textContent = 'Mining is active';
+        if (elapsed >= dur) {
+          completeMining(user);
+        }
+      } else {
+        document.getElementById('miningTimer').textContent = `00:00:00 / 24:00:00`;
+        document.getElementById('progressBar').style.width = '0%';
+        document.getElementById('activeSessionPill').textContent = 'No active session';
+      }
+      refreshTopline();
+      refreshBoost();
+    }
+
+    function completeMining(user) {
+      user.mining.active = false;
+      user.lastSession = { at: now(), earned: state.conf.dailyRate };
+      user.totalMined += state.conf.dailyRate;
+      user.balance += state.conf.dailyRate;
+
+      // Credit referrer only once on the referred user's first completed mining
+      if (!user.firstMineCredited && user.referredBy) {
+        const refUser = ensureUser(user.referredBy);
+        const bonus = Math.floor(state.conf.dailyRate * (state.conf.refPercent/100));
+        refUser.balance += bonus; refUser.refBonus += bonus;
+        user.firstMineCredited = true;
+        saveUser(refUser);
+        document.getElementById('firstMineBadge').classList.remove('hidden');
+        setTimeout(()=> document.getElementById('firstMineBadge').classList.add('hidden'), 4000);
+      }
+      saveUser(user);
+      toast(`+${state.conf.dailyRate} FIRE mined!`);
+      state.adGate.ready = false; state.adGate.deadline = 0;
+      document.getElementById('startMiningBtn').classList.add('hidden');
+      document.getElementById('watchAdBtn').classList.remove('hidden');
+      refreshTopline();
+      refreshAdminTables();
+    }
+
+    function beginAdGate(seconds=6) {
+      state.adGate.ready = false;
+      state.adGate.deadline = now() + seconds*1000;
+      const btn = document.getElementById('watchAdBtn');
+      btn.disabled = true;
+      const int = setInterval(()=>{
+        const left = Math.max(0, state.adGate.deadline - now());
+        btn.textContent = `Viewing ad… ${Math.ceil(left/1000)}s`;
+        if (left <= 0) {
+          clearInterval(int);
+          state.adGate.ready = true;
+          btn.disabled = false;
+          btn.classList.add('hidden');
+          document.getElementById('startMiningBtn').classList.remove('hidden');
+          document.getElementById('miningStatusBadge').textContent = 'Mining: Ad watched';
+          btn.textContent = 'Watch Ad to Start';
+        }
+      }, 200);
+    }
+
+    function startMining() {
+      const auth = getAuth(); if (!auth) return;
+      const user = ensureUser(auth.email);
+      if (!state.adGate.ready) { toast('Please watch an ad first.'); return; }
+      user.mining.active = true;
+      user.mining.startAt = now();
+      saveUser(user);
+      document.getElementById('miningStatusBadge').textContent = 'Mining: Active';
+      toast('Mining session started.');
+    }
+
+    function stopMining() {
+      const auth = getAuth(); if (!auth) return;
+      const user = ensureUser(auth.email);
+      user.mining.active = false;
+      saveUser(user);
+      document.getElementById('miningStatusBadge').textContent = 'Mining: Idle';
+      toast('Mining stopped. You can restart after watching an ad.');
+      state.adGate.ready = false;
+      document.getElementById('startMiningBtn').classList.add('hidden');
+      document.getElementById('watchAdBtn').classList.remove('hidden');
+    }
+
+    /* =========================================================
+       REWARDS / TASKS
+       ========================================================= */
+    function renderTasks() {
+      const list = document.getElementById('taskList');
+      list.innerHTML = '';
+      state.tasks.filter(t=>t.visible).forEach(task => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `
+          <div style="display:flex; justify-content:space-between; align-items:center; gap:10px;">
+            <div>
+              <div style="font-weight:700;">${task.title}</div>
+              <div class="muted">Type: ${task.type.toUpperCase()}</div>
+            </div>
+            <div><span class="badge red">+${task.reward} FIRE</span></div>
+          </div>
+          <div style="height:10px"></div>
+          <div style="display:flex; gap:10px; flex-wrap:wrap;">
+            <a href="${task.url}" target="_blank" rel="noopener" class="btn">Open</a>
+            <button class="btn success" data-claim="${task.id}">Claim Reward</button>
+          </div>
+        `;
+        list.appendChild(card);
+      });
+
+      // attach claim handlers
+      list.querySelectorAll('[data-claim]').forEach(btn=>{
+        btn.addEventListener('click', ()=> handleClaim(btn.getAttribute('data-claim')));
+      });
+    }
+
+    function handleClaim(taskId) {
+      const task = state.tasks.find(t => t.id === taskId);
+      if (!task) return;
+      const auth = getAuth(); if (!auth) return;
+      const user = ensureUser(auth.email);
+
+      // If task type is watch/view ad, gate with a 5-10s timer
+      const doGrant = () => {
+        user.balance += task.reward;
+        user.rewardHistory.unshift({ at: now(), type: task.type, title: task.title, amount: task.reward });
+        saveUser(user);
+        toast(`+${task.reward} FIRE added`);
+        refreshTopline();
+        renderRewardHistory();
+      };
+
+      if (task.type === 'watch') {
+        const seconds = 5 + Math.floor(Math.random()*6); // 5–10s
+        const btn = document.querySelector(`[data-claim="${taskId}"]`);
+        btn.disabled = true;
+        const startTxt = btn.textContent;
+        const int = setInterval(()=>{
+          const left = btn.dataset.tLeft ? Number(btn.dataset.tLeft) - 1 : seconds;
+          btn.dataset.tLeft = left;
+          btn.textContent = `Viewing… ${left}s`;
+          if (left <= 0) {
+            clearInterval(int);
+            btn.disabled = false; btn.dataset.tLeft = '';
+            btn.textContent = startTxt;
+            doGrant();
+          }
+        }, 1000);
+      } else {
+        doGrant();
+      }
+    }
+
+    function renderRewardHistory() {
+      const body = document.getElementById('rewardHistory');
+      body.innerHTML = '';
+      const auth = getAuth(); if (!auth) return;
+      const user = ensureUser(auth.email);
+      (user.rewardHistory||[]).forEach(row => {
+        const tr = document.createElement('tr');
+        const when = new Date(row.at).toLocaleString();
+        tr.innerHTML = `<td>${when}</td><td>${row.type}</td><td>${row.title}</td><td>+${row.amount}</td>`;
+        body.appendChild(tr);
+      });
+    }
+
+    /* =========================================================
+       REFERRALS / BOOST
+       ========================================================= */
+    function applyReferralOnFirstLogin(user) {
+      try {
+        const params = new URLSearchParams(location.search);
+        const ref = params.get('ref');
+        if (ref && !user.referredBy) {
+          const refUser = getUserByUsername(ref);
+          if (refUser && refUser.email !== user.email) {
+            user.referredBy = refUser.email;
+            refUser.referrals.push(user.email);
+            saveUser(refUser);
+            saveUser(user);
+            toast('Referral applied.');
+          }
+        }
+      } catch {}
+    }
+
+    function refreshBoost() {
+      const auth = getAuth(); if (!auth) return;
+      const user = ensureUser(auth.email);
+      const link = `${location.origin + location.pathname}?ref=${encodeURIComponent(user.username||'')}`;
+      document.getElementById('refLink').value = link;
+      document.getElementById('refLink2').value = link;
+
+      const refs = (user.referrals||[]).map(e => ensureUser(e));
+      const active = refs.filter(r => r.mining?.active).length;
+      const total = refs.length;
+      const totalBonus = user.refBonus || 0;
+
+      document.getElementById('refCount').textContent = total;
+      document.getElementById('refActive').textContent = active;
+      document.getElementById('refCount2').textContent = total;
+      document.getElementById('refActive2').textContent = active;
+      document.getElementById('refTotalBoost').textContent = fmt(totalBonus);
+
+      const teamEl = document.getElementById('teamList');
+      teamEl.innerHTML = '';
+      refs.forEach(r => {
+        const div = document.createElement('div');
+        div.className = 'card';
+        const uname = r.username || r.email.split('@')[0];
+        div.innerHTML = `
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <div style="display:flex; gap:10px; align-items:center;">
+              <div class="avatar" style="width:30px;height:30px;">${(uname[0]||'U').toUpperCase()}</div>
+              <div>
+                <div style="font-weight:700;">${uname}</div>
+                <div class="muted" style="font-size:12px;">${r.email}</div>
+              </div>
+            </div>
+            <div>${r.mining.active ? '<span class="badge green">Mining</span>' : '<span class="badge">Idle</span>'}</div>
+          </div>
+        `;
+        teamEl.appendChild(div);
+      });
+    }
+
+    /* =========================================================
+       FAQ RENDER
+       ========================================================= */
+    function renderFaq() {
+      const list = document.getElementById('faqList');
+      list.innerHTML = '';
+      state.faqs.forEach(f => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `<div style="font-weight:700;">${f.q}</div><div class="muted" style="margin-top:6px;">${f.a}</div>`;
+        list.appendChild(card);
+      });
+    }
+
+    /* =========================================================
+       ADMIN — CONFIG, TASKS, FAQ, USERS
+       ========================================================= */
+    function isAdmin(email) {
+      return state.conf.adminEmails.map(e=>e.toLowerCase()).includes(String(email||'').toLowerCase());
+    }
+
+    function openAdminIfAllowed() {
+      const auth = getAuth(); if (!auth) return;
+      const allowed = isAdmin(auth.email);
+      document.getElementById('adminNav').classList.toggle('hidden', !allowed);
+    }
+
+    function loadConfigIntoAdmin() {
+      document.getElementById('confRate').value = state.conf.dailyRate;
+      document.getElementById('confRefPct').value = state.conf.refPercent;
+      document.getElementById('confTaskReward').value = state.conf.taskReward;
+      document.getElementById('confWP').value = state.conf.whitepaper;
+      document.getElementById('confChat').value = state.conf.chat;
+      document.getElementById('confSupport').value = state.conf.support;
+      document.getElementById('confTerms').value = state.conf.terms;
+      document.getElementById('confAdmins').value = state.conf.adminEmails.join(', ');
+    }
+
+    function refreshAdminTables() {
+      const tbody = document.getElementById('adminUserRows');
+      tbody.innerHTML = '';
+      const users = allUsers();
+      document.getElementById('statUsers').textContent = users.length;
+      document.getElementById('statTotalMined').textContent = fmt(totalFireMined());
+      users.forEach(u => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td>${u.username||'-'}</td><td>${u.email}</td><td>${fmt(u.balance)}</td><td>${u.referredBy||'-'}</td><td>${u.firstMineCredited?'Yes':'No'}</td>`;
+        tbody.appendChild(tr);
+      });
+      // Admin task list
+      const list = document.getElementById('adminTaskList');
+      list.innerHTML = '';
+      state.tasks.forEach(t => {
+        const row = document.createElement('div'); row.className = 'card';
+        row.innerHTML = `
+          <div style="display:flex; justify-content:space-between; align-items:center; gap:10px;">
+            <div>
+              <div style="font-weight:700;">${t.title}</div>
+              <div class="muted">${t.type} — ${t.visible? 'Visible' : 'Hidden'}</div>
+            </div>
+            <div style="display:flex; gap:8px;">
+              <span class="badge red">+${t.reward}</span>
+              <button class="btn" data-edit-task="${t.id}">Edit</button>
+              <button class="btn danger" data-del-task="${t.id}">Delete</button>
+            </div>
+          </div>`;
+        list.appendChild(row);
+      });
+      list.querySelectorAll('[data-edit-task]').forEach(btn => btn.addEventListener('click', () => fillTaskForEdit(btn.getAttribute('data-edit-task'))));
+      list.querySelectorAll('[data-del-task]').forEach(btn => btn.addEventListener('click', () => deleteTask(btn.getAttribute('data-del-task'))));
+
+      // Admin FAQ
+      const faqList = document.getElementById('adminFaqList');
+      faqList.innerHTML = '';
+      state.faqs.forEach(f => {
+        const row = document.createElement('div'); row.className = 'card';
+        row.innerHTML = `<div style="display:flex; justify-content:space-between; align-items:center; gap:10px;">
+          <div><div style="font-weight:700;">${f.q}</div><div class="muted">${f.a}</div></div>
+          <div>
+            <button class="btn" data-edit-faq="${f.id}">Edit</button>
+            <button class="btn danger" data-del-faq="${f.id}">Delete</button>
+          </div>
+        </div>`;
+        faqList.appendChild(row);
+      });
+      faqList.querySelectorAll('[data-edit-faq]').forEach(btn => btn.addEventListener('click', () => fillFaqForEdit(btn.getAttribute('data-edit-faq'))));
+      faqList.querySelectorAll('[data-del-faq]').forEach(btn => btn.addEventListener('click', () => deleteFaq(btn.getAttribute('data-del-faq'))));
+    }
+
+    // Task form helpers
+    let editingTaskId = null;
+    function fillTaskForEdit(id) {
+      const t = state.tasks.find(x => x.id === id); if (!t) return;
+      editingTaskId = id;
+      document.getElementById('taskTitle').value = t.title;
+      document.getElementById('taskType').value = t.type;
+      document.getElementById('taskReward').value = t.reward;
+      document.getElementById('taskUrl').value = t.url;
+      const sw = document.getElementById('taskVisible'); sw.classList.toggle('active', !!t.visible);
+    }
+    function deleteTask(id) {
+      setTasks(state.tasks.filter(t => t.id !== id));
+      renderTasks(); refreshAdminTables();
+      toast('Task deleted');
+    }
+
+    // FAQ helpers
+    let editingFaqId = null;
+    function fillFaqForEdit(id) {
+      const f = state.faqs.find(x => x.id === id); if (!f) return;
+      editingFaqId = id;
+      document.getElementById('faqQ').value = f.q;
+      document.getElementById('faqA').value = f.a;
+    }
+    function deleteFaq(id) {
+      setFaqs(state.faqs.filter(f => f.id !== id));
+      renderFaq(); refreshAdminTables();
+      toast('FAQ deleted');
+    }
+
+    /* =========================================================
+       UI / NAVIGATION
+       ========================================================= */
+    function setSection(id) {
+      state.currentSection = id;
+      document.querySelectorAll('.nav button').forEach(b => b.classList.toggle('active', b.dataset.section === id));
+      document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+      const target = document.getElementById('section-' + id);
+      if (target) target.classList.add('active');
+    }
+
+    function refreshTopline() {
+      const auth = getAuth(); if (!auth) return;
+      const user = ensureUser(auth.email);
+      const uname = user.username || user.email.split('@')[0];
+      document.getElementById('topUsername').textContent = uname;
+      document.getElementById('topEmail').textContent = user.email;
+      document.getElementById('avatar').textContent = (uname[0] || 'U').toUpperCase();
+      document.getElementById('balanceBadge').textContent = `Balance: ${fmt(user.balance)} FIRE`;
+      document.getElementById('totalMined').textContent = `${fmt(user.totalMined)} FIRE`;
+      document.getElementById('refBonusTotal').textContent = `${fmt(user.refBonus)} FIRE`;
+      document.getElementById('rateText').textContent = fmt(state.conf.dailyRate);
+      if (user.mining.active) document.getElementById('miningStatusBadge').textContent = 'Mining: Active';
+    }
+
+    function populateSettings() {
+      const auth = getAuth(); if (!auth) return;
+      const user = ensureUser(auth.email);
+      const p = user.profile;
+      document.getElementById('firstName').value = p.firstName || '';
+      document.getElementById('middleName').value = p.middleName || '';
+      document.getElementById('lastName').value = p.lastName || '';
+      document.getElementById('dob').value = p.dob || '';
+      document.getElementById('countryResidence').value = p.countryResidence || '';
+      document.getElementById('countryCitizen').value = p.countryCitizen || '';
+      document.getElementById('emailSetting').value = user.email || '';
+      document.getElementById('usernameSetting').value = user.username || '';
+      document.getElementById('editsLeft').textContent = p.editsLeft;
+      document.getElementById('termsContent').textContent = state.conf.terms;
+    }
+
+    function renderFaqAndTasks() {
+      renderTasks();
+      renderRewardHistory();
+      renderFaq();
+    }
+
+    /* =========================================================
+       EVENT BINDINGS
+       ========================================================= */
+    function bindEvents() {
+      // nav
+      document.querySelectorAll('.nav button').forEach(btn => btn.addEventListener('click', () => setSection(btn.dataset.section)));
+
+      // auth
+      document.getElementById('sendCodeBtn').addEventListener('click', () => {
+        const email = document.getElementById('authEmail').value.trim();
+        if (!email || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) { toast('Enter a valid email'); return; }
+        document.getElementById('authStepEmail').classList.add('hidden');
+        document.getElementById('authStepCode').classList.remove('hidden');
+        sendCode(email);
+      });
+
+      document.getElementById('verifyCodeBtn').addEventListener('click', () => {
+        const input = document.getElementById('authCode').value.trim();
+        if (!input) return;
+        if (verifyCode(input)) {
+          const auth = getAuth();
+          const user = ensureUser(auth.email);
+          applyReferralOnFirstLogin(user);
+          closeAuth();
+          ensureUsernameFlow(user);
+          mountApp();
+          toast('Logged in');
+        } else {
+          toast('Invalid code');
+        }
+      });
+
+      document.getElementById('backToEmailBtn').addEventListener('click', () => {
+        document.getElementById('authStepCode').classList.add('hidden');
+        document.getElementById('authStepEmail').classList.remove('hidden');
+      });
+
+      document.getElementById('setUsernameBtn').addEventListener('click', () => {
+        const uname = document.getElementById('authUsername').value.trim();
+        if (!/^[a-zA-Z]+$/.test(uname)) { toast('Username must contain letters only'); return; }
+        const auth = getAuth(); const user = ensureUser(auth.email);
+        if (getUserByUsername(uname) && (user.username||'').toLowerCase() !== uname.toLowerCase()) { toast('Username already taken'); return; }
+        user.username = uname; saveUser(user);
+        toast('Username saved');
+        closeAuth();
+        mountApp();
+      });
+
+      document.getElementById('usernameSkipBtn').addEventListener('click', () => { closeAuth(); mountApp(); });
+
+      // mining
+      document.getElementById('watchAdBtn').addEventListener('click', () => beginAdGate(6));
+      document.getElementById('startMiningBtn').addEventListener('click', startMining);
+      document.getElementById('stopMiningBtn').addEventListener('click', stopMining);
+
+      // quick actions (shortcut to tasks)
+      document.getElementById('quickViewAd').addEventListener('click', () => handleClaim((state.tasks.find(t=>t.type==='watch')||{}).id));
+      document.getElementById('quickJoinTG').addEventListener('click', () => handleClaim((state.tasks.find(t=>t.type==='join')||{}).id));
+      document.getElementById('quickFollowX').addEventListener('click', () => handleClaim((state.tasks.find(t=>t.type==='follow')||{}).id));
+      document.getElementById('quickSubscribeYT').addEventListener('click', () => handleClaim((state.tasks.find(t=>t.type==='subscribe')||{}).id));
+
+      // copy referral link
+      function copyLink(id) {
+        const el = document.getElementById(id); el.select(); el.setSelectionRange(0, 99999);
+        document.execCommand('copy'); toast('Referral link copied');
+      }
+      document.getElementById('copyRefBtn').addEventListener('click', () => copyLink('refLink'));
+      document.getElementById('copyRefBtn2').addEventListener('click', () => copyLink('refLink2'));
+
+      // settings
+      document.getElementById('saveProfileBtn').addEventListener('click', () => {
+        const auth = getAuth(); if (!auth) return;
+        const user = ensureUser(auth.email); const p = user.profile;
+        const newVals = {
+          firstName: document.getElementById('firstName').value.trim(),
+          middleName: document.getElementById('middleName').value.trim(),
+          lastName: document.getElementById('lastName').value.trim(),
+          dob: document.getElementById('dob').value,
+          countryResidence: document.getElementById('countryResidence').value.trim(),
+          countryCitizen: document.getElementById('countryCitizen').value.trim()
+        };
+        const newEmail = document.getElementById('emailSetting').value.trim();
+        const newUsername = document.getElementById('usernameSetting').value.trim();
+
+        // Limit edits for name & country
+        const sensitiveChanged = (
+          p.firstName !== newVals.firstName || p.middleName !== newVals.middleName || p.lastName !== newVals.lastName ||
+          p.countryResidence !== newVals.countryResidence || p.countryCitizen !== newVals.countryCitizen
+        );
+        if (sensitiveChanged && p.editsLeft <= 0) { toast('No edits left for name/country.'); return; }
+        if (sensitiveChanged) p.editsLeft = Math.max(0, (p.editsLeft||0) - 1);
+
+        Object.assign(p, newVals);
+        if (/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(newEmail)) user.email = newEmail; // local change only
+        if (newUsername) {
+          if (!/^[a-zA-Z]+$/.test(newUsername)) { toast('Username must be letters only'); return; }
+          const conflict = getUserByUsername(newUsername);
+          if (conflict && conflict.email !== user.email) { toast('Username already taken'); return; }
+          user.username = newUsername;
+        }
+        saveUser(user);
+        setAuth({ email: user.email });
+        populateSettings(); refreshTopline(); refreshBoost();
+        toast('Profile saved');
+      });
+
+      document.getElementById('resendCodeBtn').addEventListener('click', () => { toast('Confirmation code sent (demo).'); });
+
+      document.getElementById('openCommunityBtn').addEventListener('click', () => window.open(state.conf.chat, '_blank'));
+      document.getElementById('openSupportBtn').addEventListener('click', () => window.open(state.conf.support, '_blank'));
+      document.getElementById('downloadWPBtn').addEventListener('click', () => window.open(state.conf.whitepaper, '_blank'));
+      document.getElementById('downloadWPBtn2').addEventListener('click', () => window.open(state.conf.whitepaper, '_blank'));
+      document.getElementById('viewTCBtn').addEventListener('click', () => toast('Scroll to Terms section below.'));
+
+      // admin config
+      document.getElementById('saveConfigBtn').addEventListener('click', () => {
+        const c = Object.assign({}, state.conf, {
+          dailyRate: parseInt(document.getElementById('confRate').value || 36, 10),
+          refPercent: parseInt(document.getElementById('confRefPct').value || 10, 10),
+          taskReward: parseInt(document.getElementById('confTaskReward').value || 4, 10),
+          whitepaper: document.getElementById('confWP').value.trim() || state.conf.whitepaper,
+          chat: document.getElementById('confChat').value.trim() || state.conf.chat,
+          support: document.getElementById('confSupport').value.trim() || state.conf.support,
+          terms: document.getElementById('confTerms').value.trim() || state.conf.terms,
+        });
+        setConf(c);
+        document.getElementById('termsContent').textContent = c.terms;
+        refreshTopline(); toast('Config saved');
+      });
+
+      document.getElementById('saveAdminsBtn').addEventListener('click', () => {
+        const raw = document.getElementById('confAdmins').value.trim();
+        const arr = raw ? raw.split(',').map(s=>s.trim()).filter(Boolean) : [];
+        const c = Object.assign({}, state.conf, { adminEmails: arr.length ? arr : DEFAULT_CONF.adminEmails });
+        setConf(c); openAdminIfAllowed(); toast('Admin emails updated');
+      });
+
+      // admin: add/update task
+      document.getElementById('taskVisible').addEventListener('click', (e)=> e.currentTarget.classList.toggle('active'));
+      document.getElementById('addTaskBtn').addEventListener('click', () => {
+        const title = document.getElementById('taskTitle').value.trim();
+        const type = document.getElementById('taskType').value;
+        const reward = parseInt(document.getElementById('taskReward').value || state.conf.taskReward, 10);
+        const url = document.getElementById('taskUrl').value.trim() || '#';
+        const visible = document.getElementById('taskVisible').classList.contains('active');
+        if (!title) { toast('Task title required'); return; }
+        if (editingTaskId) {
+          state.tasks = state.tasks.map(t => t.id===editingTaskId ? Object.assign({}, t, { title, type, reward, url, visible }) : t);
+          editingTaskId = null;
+        } else {
+          state.tasks.push({ id: uid(), title, type, reward, url, visible });
+        }
+        setTasks(state.tasks); renderTasks(); refreshAdminTables(); toast('Task saved');
+        document.getElementById('taskTitle').value = ''; document.getElementById('taskReward').value=''; document.getElementById('taskUrl').value='';
+      });
+
+      document.getElementById('resetTasksBtn').addEventListener('click', () => { setTasks(DEFAULT_TASKS); renderTasks(); refreshAdminTables(); toast('Tasks reset'); });
+
+      // admin: FAQ
+      document.getElementById('addFaqBtn').addEventListener('click', () => {
+        const q = document.getElementById('faqQ').value.trim();
+        const a = document.getElementById('faqA').value.trim();
+        if (!q || !a) { toast('Question and Answer required'); return; }
+        if (editingFaqId) {
+          state.faqs = state.faqs.map(f => f.id===editingFaqId ? Object.assign({}, f, { q, a }) : f);
+          editingFaqId = null;
+        } else {
+          state.faqs.push({ id: uid(), q, a });
+        }
+        setFaqs(state.faqs); renderFaq(); refreshAdminTables(); toast('FAQ saved');
+        document.getElementById('faqQ').value=''; document.getElementById('faqA').value='';
+      });
+
+      document.getElementById('resetFaqBtn').addEventListener('click', () => { setFaqs(DEFAULT_FAQ); renderFaq(); refreshAdminTables(); toast('FAQ reset'); });
+
+      // logout
+      document.getElementById('logoutBtn').addEventListener('click', () => { setAuth(null); mountApp(); openAuth(); });
+    }
+
+    /* =========================================================
+       MOUNT / INIT
+       ========================================================= */
+    function mountApp() {
+      state.conf = getConf(); state.users = getUsers(); state.tasks = getTasks(); state.faqs = getFaqs();
+      const auth = getAuth();
+      const app = document.getElementById('app');
+      if (!auth) {
+        app.style.display = 'none'; openAuth(); return;
+      }
+      app.style.display = 'grid';
+      document.getElementById('adminNav').classList.add('hidden'); // hide until verified
+      refreshTopline(); renderFaqAndTasks(); populateSettings(); refreshBoost(); loadConfigIntoAdmin(); refreshAdminTables(); openAdminIfAllowed();
+      startTick();
+
+      // set referral links right away
+      const user = ensureUser(auth.email);
+      document.getElementById('refLink').value = `${location.origin + location.pathname}?ref=${encodeURIComponent(user.username||'')}`;
+      document.getElementById('refLink2').value = `${location.origin + location.pathname}?ref=${encodeURIComponent(user.username||'')}`;
+
+      // Mining button visibility based on gate
+      const btnStart = document.getElementById('startMiningBtn');
+      const btnAd = document.getElementById('watchAdBtn');
+      if (user.mining.active) { btnStart.classList.add('hidden'); btnAd.classList.add('hidden'); }
+      else { btnStart.classList.toggle('hidden', !state.adGate.ready); btnAd.classList.toggle('hidden', state.adGate.ready); }
+
+      // Terms content
+      document.getElementById('termsContent').textContent = state.conf.terms;
+    }
+
+    function init() {
+      // Load persisted config/tasks/faqs on first boot
+      if (!localStorage.getItem(LS_KEYS.config)) setConf(DEFAULT_CONF);
+      if (!localStorage.getItem(LS_KEYS.tasks)) setTasks(DEFAULT_TASKS);
+      if (!localStorage.getItem(LS_KEYS.faqs)) setFaqs(DEFAULT_FAQ);
+
+      bindEvents();
+
+      // Show splash for 5 seconds
+      const splash = document.getElementById('splash');
+      setTimeout(() => { splash.style.display = 'none'; mountApp(); }, 5000);
+    }
+
+    // Bootstrap
+    init();
+
+    /* =========================================================
+       NOTES FOR INTEGRATION (Firebase/Prod):
+       - Replace email+code simulation with Firebase Email Link Auth or 3rd-party OTP.
+       - Persist users & mining sessions in Firestore; secure with rules.
+       - Replace ad placeholders with PropellerAds, Adsterra, Coinzilla. Trigger beginAdGate on ad complete event.
+       - Replace local referral link handling with backend to avoid spoofing.
+       - Add reCAPTCHA / bot protection before crediting rewards.
+       - Enforce Terms (anti-multi-account) server-side.
+       - Deploy to Firebase Hosting (current domain ok). Remove PWA add-to-home prompts.
+       ========================================================= */
+  </script>
+</body>
+</html>
